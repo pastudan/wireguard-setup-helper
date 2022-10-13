@@ -7,7 +7,7 @@
 
 USAGE="USAGE: ./install.sh <home-ip-or-ddns>"
 DDNS_ADDRESS=$1
-if [ -n "$DDNS_ADDRESS" ]; then
+if [ -z "$DDNS_ADDRESS" ]; then
   echo "No ddns parameter supplied"
   echo $USAGE
   exit 1
@@ -77,19 +77,6 @@ Endpoint = ${DDNS_ADDRESS}:51820
 AllowedIPs = 0.0.0.0/0, ::/0
 EOF
 
-# Generate iphone config
-cat <<EOF > /etc/wireguard/reyna.conf
-[Interface]
-PrivateKey = $(cat /etc/wireguard/reyna-privatekey)
-Address = 10.1.1.2/32
-DNS = 10.1.1.1
-
-[Peer]
-PublicKey = $(cat /etc/wireguard/reyna-publickey)
-Endpoint = ${DDNS_ADDRESS}:51820
-AllowedIPs = 0.0.0.0/0, ::/0
-EOF
-
 echo -e "***\n*** IPHONE\n***"
 qrencode -t ansiutf8 < /etc/wireguard/iphone.conf
 
@@ -108,4 +95,4 @@ EOF
 
 
 # Install PiHole
-curl -L https://install.pi-hole.net | bash
+#curl -L https://install.pi-hole.net | bash
