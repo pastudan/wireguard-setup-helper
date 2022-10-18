@@ -39,8 +39,10 @@ PrivateKey = $(cat /etc/wireguard/server-privatekey)
 Address = 10.1.1.1/24
 DNS = 10.1.1.1
 ListenPort = 51820
-PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp = iptables --append FORWARD --in-interface wg0 --jump ACCEPT
+PostUp = iptables --append POSTROUTING --table nat --out-interface eth0 --jump MASQUERADE
+PostDown = iptables --delete FORWARD --in-interface wg0 --jump ACCEPT
+PostDown = iptables --delete POSTROUTING --table nat --out-interface eth0 --jump MASQUERADE
 SaveConfig = true
 
 [Peer]
