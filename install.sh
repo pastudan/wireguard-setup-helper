@@ -37,7 +37,7 @@ cat <<EOF > /etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat /etc/wireguard/server-privatekey)
 Address = 10.1.1.1/24
-DNS = 10.1.1.1
+DNS = 1.1.1.1
 ListenPort = 51820
 PostUp = iptables --append FORWARD --in-interface wg0 --jump ACCEPT
 PostUp = iptables --append POSTROUTING --table nat --out-interface eth0 --jump MASQUERADE
@@ -71,7 +71,7 @@ cat <<EOF > /etc/wireguard/iphone.conf
 [Interface]
 PrivateKey = $(cat /etc/wireguard/iphone-privatekey)
 Address = 10.1.1.2/32
-DNS = 10.1.1.1
+DNS = 1.1.1.1
 
 [Peer]
 PublicKey = $(cat /etc/wireguard/server-publickey)
@@ -87,7 +87,7 @@ cat <<EOF > /etc/wireguard/macbook.conf
 [Interface]
 PrivateKey = $(cat /etc/wireguard/macbook-privatekey)
 Address = 10.1.1.3/32
-DNS = 10.1.1.1
+DNS = 1.1.1.1
 
 [Peer]
 PublicKey = $(cat /etc/wireguard/server-publickey)
