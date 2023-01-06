@@ -24,7 +24,7 @@ apt update
 apt install -y wireguard qrencode curl
 
 # fix for resolvconf in debain which wireguard needs https://superuser.com/a/1544697
-ln -s /usr/bin/resolvectl /usr/local/bin/resolvconf
+# ln -s /usr/bin/resolvectl /usr/local/bin/resolvconf
 
 # Generate priv/pub key pairs for the server & clients
 wg genkey | tee /etc/wireguard/server-privatekey | wg pubkey > /etc/wireguard/server-publickey
@@ -37,7 +37,6 @@ cat <<EOF > /etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat /etc/wireguard/server-privatekey)
 Address = 10.1.1.1/24
-DNS = 1.1.1.1
 ListenPort = 51820
 PostUp = iptables --append FORWARD --in-interface wg0 --jump ACCEPT
 PostUp = iptables --append POSTROUTING --table nat --out-interface eth0 --jump MASQUERADE
